@@ -1,0 +1,5 @@
+flask
+ConfigParser==3.5.3
+boto3
+awscli==1.20.54
+jinja2

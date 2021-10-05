@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans&display=swap" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+       
+
+    <script src="https://kit.fontawesome.com/f685c26eb0.js" crossorigin="anonymous"></script>
+
+    <title>Ceres Imaging</title>
+    
+</head>
+
+<script>
+    $(function () {
+
+        $('#meta').attr("tabindex",-1).focus();
+            $('#clear').on('click', function(e) {
+            e.preventDefault();
+            document.getElementById('files').innerHTML = '';
+        })
+
+    });
+
+    // function showdiv(divID) {
+    //     $('#'+divID).css('display','block');
+    // }
+
+    function alertUser(message) {
+        document.getElementById('validation').innerHTML = message;
+        $('#validation').fadeTo(2000, 2000).slideUp(2000, function(){
+
+        });
+    }
+
+</script>
+
+<body style="font-family: 'Work Sans', sans-serif; background-color: #8192d6; position: relative;">
+
+    <nav class="navbar navbar-expand-md fixed-top" style="background-color: white;" aria-labelledby="ceres-logo">
+        <div class="container">
+            <div class="collapse navbar-collapse flex-column align-items-center ml-lg-1 ml-0" id="navbarCollapse">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <img src="https://www.ceresimaging.net/hs-fs/hubfs/Logo.png?width=314&name=Logo.png" class="img-fluid" alt="Responsive image" style="height: 100px;">
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class= "container-fluid text-center mt-5" style="background-color: #8192d6; padding-top: 5em;">
+        <div class="form-group row text-center" style="padding-left: 3em;">
+            <div class="col-3 text-center">
+
+            </div>
+            <div class="col-3 text-center">
+                <form id="new-name" action="/images">
+                    <input type="submit" value="Get All Files">
+                </form>
+            </div>
+            <div class="col-3 text-center">
+                <form id="refresh" action="/refresh">
+                    <button id="clear">Refresh!</button>
+                </form>
+            </div>
+            <div class="col-3 text-center">
+
+            </div>
+        </div>
+        <!-- <div class="col-sm-3">
+            <form id="refresh" action="/refresh">
+                <button id="clear">Refresh!</button>
+            </form>
+        </div> -->
+    </div>
+
+    <div id = "files" class= "container-fluid text-center mt-2" style="background-color: #8192d6; padding-top: 2em;">
+        {% if result %}
+        <div class= "container-fluid text-center mt-2 mb-5" style="background-color: #8192d6; padding-top: 2em;">
+            <form id="download" action="/downloadall">
+                <input type="submit" value="Download All Files">
+            </form>
+        </div>
+        {% endif %}
+        {% for file in result %}
+            <div class="form-group row">
+                <h3 class="col-sm-6">{{file}}</h3>
+                <form method="GET" action="/download/{{file}}">
+                    <input type="submit" class="btn btn-primary mr-3" value="Download File">
+                </form>
+                {% if file != 'metadata.txt' %}
+                    <form method="GET" action="/metadata/{{file}}">
+                        <input type="submit" class="btn btn-primary mr-3" value = "Get Metadata" onclick="showdiv('{{file}}')">
+                    </form>
+                {% endif %}                    
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="container-fluid text-center mt-5" id="meta">
+        <table class="table table-dark table-bordered">
+            <thead>
+                <tr>
+                {% if metadata %}
+                    {% for key, value in metadata.items() %}        
+                        <th id="'{{key}}'">{{key}}</th>
+                    {% endfor %}
+                {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                {% if metadata %}
+                    {% for key, value in metadata.items() %}
+                        <td>{{value}}</td>
+                    {% endfor %}
+                {% endif %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <nav class="navbar fixed-bottom navbar-light" style="position: relative;">
+        <div class="container">
+            <span class="navbar-text mx-auto" >
+                <em class="far fa-copyright"></em>Kaushik Narayan
+            </span>
+        </div>
+    </nav>
+</body>
+</html>
