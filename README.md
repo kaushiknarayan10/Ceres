@@ -10,9 +10,9 @@ Given a s3 Bucket, the app gives the user the option to
 ## Running
 - Clone the directory to your local.
 - Run `pip install -r requirements.txt`
-- If you have AWS CLI set up in your local with your own AWS Credentials, Run `python Home_AWS.py` and go to [127.0.0.1:5000](http://127.0.0.1:5000)
-- If you DO NOT have AWS CLI set up in your local, Run `python Home.py` and go to [127.0.0.1:5000](http://127.0.0.1:5000)
+- Run `python Home.py` and go to [127.0.0.1:5000](http://127.0.0.1:5000)
 - If you have a different runtime of python, use `python3` instead of `python`.
+- If you want to change your access level, you can change it in the `aws.config` file and update the key and token.
 
 ## Information
 It is recommended that you set up your own AWS CLI configuration. But if you do not have, there is an aws.config file that is used by the code.
